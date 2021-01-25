@@ -1,6 +1,6 @@
 # postAnswersFromGoogleFormToWordPress
 
-所定のアウトラインに従ってGoogleFormの回答をHTMLファイル化し、WordPressに下書きとして投稿する。  
+所定のアウトラインに従ってGoogleFormの回答をHTML化し、WordPressに下書きとして投稿する。  
 Webサイト運用にて、アウトラインの定まったページを量産する際に効率化できる。  
 サイト運営メンバー以外が寄稿する際に、GoogleFormを用いることで寄稿ハードルを下げ、コンテンツを増やす狙いがある。  
 
