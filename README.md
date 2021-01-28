@@ -4,6 +4,11 @@
 Webサイト運用にて、アウトラインの定まったページを量産する際に効率化できる。  
 サイト運営メンバー以外が寄稿する際に、GoogleFormを用いることで寄稿ハードルを下げ、コンテンツを増やす狙いがある。  
 
+Google Form:  
+https://docs.google.com/forms/d/e/1FAIpQLScgj4b3C_eN4w7c_npYWOrJc4UPwsDwYnFh0MP-NaxxG0wJDg/viewform  
+Webサイト:  
+https://smazeirelease.com  
+
 ## GoogleForm連携
 今回このFormと連携されている  
 https://docs.google.com/forms/d/e/1FAIpQLScgj4b3C_eN4w7c_npYWOrJc4UPwsDwYnFh0MP-NaxxG0wJDg/viewform?usp=sf_link  
