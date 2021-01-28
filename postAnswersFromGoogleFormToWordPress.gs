@@ -14,6 +14,8 @@ function onSubmit(e) {
 
   const articleTitle = processFormAnswer(e)[0];
   const articleContent = processFormAnswer(e)[1];
+  const articleCategory = processFormAnswer(e)[2];
+  const articleSlug = processFormAnswer(e)[3];
 
     // リクエストヘッダ  
   const headers = {
@@ -22,10 +24,12 @@ function onSubmit(e) {
 
   // Payload(投稿内容)
   const payload  = {
-    'title'   : articleTitle ,                // 題名
-    'content' : articleContent ,              // 本文 
-    'status'  : 'draft'                       // 下書き(=draft)状態で投稿
-  }
+    'title'      : articleTitle ,                // 題名
+    'content'    : articleContent ,              // 本文 
+    'status'     : 'draft' ,                     // 下書き(=draft)状態で投稿
+    'categories' : articleCategory ,             // タグ
+    'slug'       : articleSlug                   // URL末尾
+  };
 
   // Option
   const options = {
@@ -42,12 +46,13 @@ function onSubmit(e) {
 // 記事タイプによって処理を変える
 function processFormAnswer(formAnswerData){
   const itemResponses = formAnswerData.response.getItemResponses();
-  const formAnswers = []
-  const formAnswerNumber = 13;
-  const output = []
+  const formAnswers = [];
+  const formAnswerNumber = 14;
+  const output = [];   //[タイトル, 内容, タグ, スラッグ]
+
 
   // 配列formAnswersに回答を格納していく。
-  // 0:記事タイプ,1:投稿者Twitter,2:大会名,3:開催日,4:開催場所,5:参加人数,6:Top8選手情報,7:WebページURL,8:配信先URL,9:公式Twitter URL,10:自由記述欄タイトル,11:自由記述欄本文,12:サムネ画像
+  // 0:記事タイプ,1:投稿者Twitter,2:大会名,3:開催日,4:開催場所,5:参加人数,6:Top8選手情報,7:WebページURL,8:配信先URL,9:公式Twitter URL,10:自由記述欄タイトル,11:自由記述欄本文,12:記事URL末尾, 13:サムネ画像
   for (let i=0; i<formAnswerNumber; i++){
     if(itemResponses[i]){
       formAnswers[i] = itemResponses[i].getResponse();
@@ -63,7 +68,7 @@ function processFormAnswer(formAnswerData){
     
     output[1] = `
       <h2>大会概要</h2>
-      <p>${formAnswers[3]}に${formAnswers[4]}にて開催されたオフライン大会です。</p>
+      <p>${formAnswers[3].replace('-','年').replace('-','月') + '日'}に${formAnswers[4]}にて開催されたオフライン大会です。</p>
       <h2>参加人数</h2>
       <p>${formAnswers[5]}</p>
       <h2>結果</h2>
@@ -72,12 +77,16 @@ function processFormAnswer(formAnswerData){
       <h2>配信先</h2>
       <p><a href="${formAnswers[8]}" data-type="URL">${formAnswers[8]}</a></p>
       <h2>外部リンク</h2>
-      <p><a href="${formAnswers[7]}" data-type="URL">大会ページ</a></p>
+      <p>大会ページ</p>
+      <p><a href="${formAnswers[7]}" data-type="URL">${formAnswers[7]}</a></p>
       <p><a href="${formAnswers[9]}" data-type="URL">公式Twitter</a></p>
       <h2>${formAnswers[10]}</h2>
       <p>${formAnswers[11]}</p>
     `;
     
+    output[2] = 3;
+    output[3] = formAnswers[12];
   }
+  Logger.log(formAnswers);
   return output;
 }
