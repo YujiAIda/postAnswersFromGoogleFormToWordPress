@@ -18,3 +18,5 @@ Form作成時にオプションからスクリプトエディタを開き、ス�
 2. サムネイルの投稿と設定  
   GoogleFormのメディアアップロードを使う場合、記事作成時に画像をドライブから削除したい。  
   GoogleDriveのリンクを送ってもらう場合、公開設定を入力されたURLなどから確認する必要がある。  
+  ↓これでいけそう
+  https://colabmix.co.jp/tech-blog/wordpress-restapi-post-image-content/
