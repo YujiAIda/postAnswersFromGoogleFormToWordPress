@@ -24,4 +24,7 @@ Form作成時にオプションからスクリプトエディタを開き、ス�
   GoogleFormのメディアアップロードを使う場合、記事作成時に画像をドライブから削除したい。  
   GoogleDriveのリンクを送ってもらう場合、公開設定を入力されたURLなどから確認する必要がある。  
   ↓これでいけそう
-  https://colabmix.co.jp/tech-blog/wordpress-restapi-post-image-content/
+  https://colabmix.co.jp/tech-blog/wordpress-restapi-post-image-content/  
+  と思ったが、以下のエラーが出るので詰んでいる (2021-01-31現在)
+  {“code”:”rest_upload_sideload_error”,”message”:”Sorry, this file type is not permitted for security reasons.”,”data”:{“status”:500}}  
+  
