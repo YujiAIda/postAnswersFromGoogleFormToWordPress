@@ -10,25 +10,26 @@ var APP_PASS = 'TYPE-YOUR-APP-PASS-HERE';
 //フォームの回答をWordPressに投稿するメインの関数。
 function onSubmit(e) {
   FormApp.getActiveForm();
-  Logger.log(e);
 
   const articleTitle = processFormAnswer(e)[0];
   const articleContent = processFormAnswer(e)[1];
   const articleCategory = processFormAnswer(e)[2];
   const articleSlug = processFormAnswer(e)[3];
+  const imageId = postImage(processFormAnswer(e)[4],articleTitle);
 
-    // リクエストヘッダ  
+  // リクエストヘッダ  
   const headers = {
     'Authorization': 'Basic '+ Utilities.base64Encode(POST_USER_NAME + ':' + APP_PASS)
   };
 
   // Payload(投稿内容)
   const payload  = {
-    'title'      : articleTitle ,                // 題名
-    'content'    : articleContent ,              // 本文 
-    'status'     : 'draft' ,                     // 下書き(=draft)状態で投稿
-    'categories' : articleCategory ,             // タグ
-    'slug'       : articleSlug                   // URL末尾
+    'title'          : articleTitle ,                // 題名
+    'content'        : articleContent ,              // 本文 
+    'status'         : 'draft' ,                     // 下書き(=draft)状態で投稿
+    'categories'     : articleCategory ,             // タグ
+    'slug'           : articleSlug,                  // URL末尾
+    'featured_media' : imageId                       // アイキャッチ画像
   };
 
   // Option
@@ -48,7 +49,7 @@ function processFormAnswer(formAnswerData){
   const itemResponses = formAnswerData.response.getItemResponses();
   const formAnswers = [];
   const formAnswerNumber = 14;
-  const output = [];   //[タイトル, 内容, タグ, スラッグ]
+  const output = [];   //[タイトル, 内容, タグ, スラッグ,画像DriveId]
 
 
   // 配列formAnswersに回答を格納していく。
@@ -86,7 +87,38 @@ function processFormAnswer(formAnswerData){
     
     output[2] = 3;
     output[3] = formAnswers[12];
+    output[4] = formAnswers[13][0]; // Drive画像
   }
   Logger.log(formAnswers);
   return output;
+}
+
+//https://drive.google.com/open?id=1GsFI3ilaW3Vnc2mU_O6P9tCvAA34GucX
+//画像をWordPressサーバーに投稿し、画像IDを含むレスポンス情報を返す関数。
+//function postImage(imageDriveId,articleTitle) {
+function postImage() {
+  const imageDriveId = "1GsFI3ilaW3Vnc2mU_O6P9tCvAA34GucX"; //あとでけす
+  const articleTitle = "asdasd"; //あとでけす
+	const apiUrl = siteURL + 'wp-json/wp/v2/media';
+  const imageBlob = DriveApp.getFileById(imageDriveId).getAs("image/png"); 
+
+	var headers = {
+		'Content-Type': 'image/png',
+		'Content-Disposition': `attachment;filename=${articleTitle}_thumbnail`,
+		'accept': 'application/json',
+		'Authorization': 'Basic ' + Utilities.base64Encode(POST_USER_NAME + ':' + APP_PASS)
+	};
+
+	const options = {
+		'method': 'POST',
+		'muteHttpExceptions': true,
+		'headers': headers,
+		'payload': imageBlob
+	};
+
+	const response = UrlFetchApp.fetch(apiUrl, options);
+	const responseJson = JSON.parse(response.getContentText());
+  Logger.log(response);
+
+	return responseJson;
 }
